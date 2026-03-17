@@ -1,21 +1,35 @@
-name: portfolio Deployment
+name: Portfolio Deployment
+
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v6.0.2
 
-      - name: AWS configuration
-        uses: aws-actions/configure-aws-credentials@v6.0.0
-        with: 
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    steps:
+      # ✅ Step 1: Checkout repo (FIXED VERSION)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ✅ Step 2: Configure AWS credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: Deploy static app on aws
-        run: aws s3 sync . s3://awsmz-portfolio-web --delete
+
+      # ✅ Step 3: Deploy to S3
+      - name: Deploy to S3
+        run: |
+          aws s3 sync . s3://awsmz-portfolio-web --delete
+
+      # ✅ Step 4 (Optional but recommended): Invalidate CloudFront cache
+      # - name: Invalidate CloudFront
+      #   run: |
+      #     aws cloudfront create-invalidation \
+      #       --distribution-id YOUR_DISTRIBUTION_ID \
+      #       --paths "/*"
