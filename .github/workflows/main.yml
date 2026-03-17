@@ -1,0 +1,21 @@
+name: portfolio Deployment
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: AWS configuration
+        uses: aws-actions/configure-aws-credentials@v6.0.0
+        with: 
+          aws-access-key-id: ${{ secret.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secret.AWS_SECRET_KEY}}
+          aws-region: us-east-1
+      - name: Deploy static app on aws
+        run: aws s3 sync . s3://awsmz-portfolio-web --delete
