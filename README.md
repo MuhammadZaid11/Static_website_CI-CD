@@ -1,4 +1,6 @@
 # 🚀 Deploying Portfolio Website using GitHub Actions & AWS
+<img width="691" height="372" alt="image" src="https://github.com/user-attachments/assets/89cbabfb-5aef-4fbc-87e2-239f808555ae" />
+
 
 ## 📌 Project Overview
 This project demonstrates how to deploy a static portfolio website to AWS S3 using a fully automated CI/CD pipeline with GitHub Actions.
